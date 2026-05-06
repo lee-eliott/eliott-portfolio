@@ -10,9 +10,24 @@ export const metadata: Metadata = {
 
 const timeline = [
   {
-    year: "2023",
+    year: "2024 - Actuel",
+    title: "Consultant Data — Davidson Consulting",
+    description: "En mission chez Bouygues Telecom. Conception de tableaux de bord Power BI, développement de solutions d'automatisation en Python, Power Automate et Power Apps, et manipulation de donnée via SQL et Python. Référent IA pour les régions Centre-Alpes et Méditerranée.",
+  },
+  {
+    year: "2024",
     title: "Diplômé ingénieur — ECAM Lasalle",
     description: "Arts et Métiers. Spécialisation en informatique, développement logiciel et data.",
+  },
+  {
+    year: "2023 - 2024",
+    title: "Alternance - Bouygues Telecom",
+  description: "Pilotage du nettoyage et de la transformation des données dans le cadre d'une migration vers un nouvel outil de gestion. Automatisation de traitements récurrents en Python et création de tableaux de bord Power BI pour le suivi de l'activité.",
+ },
+  {
+    year: "2022",
+    title: "Formation Power BI",
+    description: "Formation Udemy. Conception de rapports et tableaux de bord : import de données multi-sources, transformation avec Power Query, modélisation et introduction au langage DAX.",
   },
   {
     year: "2022",
