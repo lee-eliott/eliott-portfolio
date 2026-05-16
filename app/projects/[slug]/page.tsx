@@ -9,12 +9,10 @@ type Props = {
   params: { slug: string };
 };
 
-/* ── Static params for SSG ────────────────────────────────── */
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
 }
 
-/* ── Dynamic metadata ─────────────────────────────────────── */
 export function generateMetadata({ params }: Props): Metadata {
   const project = getProjectBySlug(params.slug);
   if (!project) return { title: "Projet introuvable" };
@@ -24,11 +22,12 @@ export function generateMetadata({ params }: Props): Metadata {
   };
 }
 
-/* ── Page ─────────────────────────────────────────────────── */
 export default function ProjectDetailPage({ params }: Props) {
   const project = getProjectBySlug(params.slug);
 
   if (!project) notFound();
+
+  const paragraphs = project.longDescription.split("\n\n").filter(Boolean);
 
   return (
     <div className="pt-16">
@@ -73,7 +72,7 @@ export default function ProjectDetailPage({ params }: Props) {
       </section>
 
       {/* Content grid */}
-      <section className="max-w-5xl mx-auto px-6 pb-20">
+      <section className="max-w-5xl mx-auto px-6 pb-12">
         <div className="grid md:grid-cols-3 gap-12">
           {/* Long description */}
           <div className="md:col-span-2">
@@ -81,9 +80,13 @@ export default function ProjectDetailPage({ params }: Props) {
               À propos du projet
             </h2>
             <div className="w-8 h-px bg-accent mb-8" />
-            <p className="font-body text-muted leading-relaxed text-base">
-              {project.longDescription}
-            </p>
+            <div className="flex flex-col gap-5">
+              {paragraphs.map((p, i) => (
+                <p key={i} className="font-body text-muted leading-relaxed text-base">
+                  {p}
+                </p>
+              ))}
+            </div>
           </div>
 
           {/* Sidebar */}
@@ -122,7 +125,38 @@ export default function ProjectDetailPage({ params }: Props) {
         </div>
       </section>
 
-      {/* Navigation between projects */}
+      {/* Features grid */}
+      {project.features && project.features.length > 0 && (
+        <section className="border-t border-border bg-surface">
+          <div className="max-w-5xl mx-auto px-6 py-20">
+            <p className="text-accent text-xs font-medium uppercase tracking-widest mb-3">
+              Fonctionnalités
+            </p>
+            <h2 className="font-display text-3xl text-text mb-12">
+              Ce que l&apos;application propose
+            </h2>
+
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-px bg-border">
+              {project.features.map((feature) => (
+                <div
+                  key={feature.title}
+                  className="bg-surface p-8 flex flex-col gap-4"
+                >
+                  <span className="text-2xl">{feature.icon}</span>
+                  <h3 className="font-display text-lg text-text">
+                    {feature.title}
+                  </h3>
+                  <p className="font-body text-sm text-muted leading-relaxed">
+                    {feature.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Navigation */}
       <section className="border-t border-border">
         <div className="max-w-5xl mx-auto px-6 py-12">
           <div className="flex justify-between items-center">
