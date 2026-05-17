@@ -24,7 +24,7 @@ export const projects: Project[] = [
       "PaceLab est né d'un besoin simple : je me suis lancé dans la course à pied et je voulais suivre mes progrès sans payer un abonnement premium sur des plateformes qui proposent bien plus que ce dont j'avais besoin. J'ai donc créé ma propre application, connectée à l'API Strava, pensée exactement pour mon usage.\n\nC'est mon premier vrai projet d'application web complet, développé en collaboration avec Claude. Une aventure technique et pédagogique qui m'a permis de prendre en main Next.js, Supabase, et l'écosystème moderne du développement web.\n\nPour ne pas avoir à créer de compte pour tester, un mode démo donne accès à un profil fictif complet et représentatif. Une façon de voir à quoi ressemble l'application sans aucun engagement.",
     technologies: ["Next.js", "TypeScript", "Supabase", "Strava API", "Tailwind CSS"],
     image: "/images/pacelab.jpg",
-    link: "https://pacelab-five.vercel.app/mescourses",
+    link: "https://pacelab-five.vercel.app/",
     year: "2025",
     category: "Web App",
     features: [
