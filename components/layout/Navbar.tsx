@@ -47,13 +47,28 @@ export function Navbar() {
 
         {/* Right: lang toggle + contact */}
         <div className="hidden md:flex items-center gap-5">
-          <button
-            onClick={toggle}
-            className="font-mono text-[11px] text-ink-4 hover:text-ink tracking-[0.14em] uppercase transition-colors duration-200"
-            aria-label="Toggle language"
-          >
-            {lang === "fr" ? "EN" : "FR"}
-          </button>
+          <div className="flex items-center gap-0.5 border border-[rgba(28,25,20,0.18)] rounded-full p-0.5" aria-label="Language selector">
+            <button
+              onClick={() => lang === "en" && toggle()}
+              className={`font-mono text-[10px] tracking-[0.12em] uppercase px-3 py-1 rounded-full transition-all duration-200 ${
+                lang === "fr"
+                  ? "bg-ink text-paper"
+                  : "text-ink-4 hover:text-ink"
+              }`}
+            >
+              FR
+            </button>
+            <button
+              onClick={() => lang === "fr" && toggle()}
+              className={`font-mono text-[10px] tracking-[0.12em] uppercase px-3 py-1 rounded-full transition-all duration-200 ${
+                lang === "en"
+                  ? "bg-ink text-paper"
+                  : "text-ink-4 hover:text-ink"
+              }`}
+            >
+              EN
+            </button>
+          </div>
           <a
             href="mailto:eliottlee13@gmail.com"
             className="font-display text-sm font-medium border border-[rgba(28,25,20,0.2)] text-ink-2 px-4 py-2 hover:border-terracotta hover:text-terracotta transition-all duration-200"
@@ -104,12 +119,24 @@ export function Navbar() {
             </Link>
           ))}
           <div className="flex items-center justify-between pt-3 border-t border-[rgba(28,25,20,0.08)]">
-            <button
-              onClick={toggle}
-              className="font-mono text-[11px] text-ink-4 uppercase tracking-[0.14em] hover:text-ink transition-colors"
-            >
-              {lang === "fr" ? "Switch to EN" : "Passer en FR"}
-            </button>
+            <div className="flex items-center gap-0.5 border border-[rgba(28,25,20,0.18)] rounded-full p-0.5">
+              <button
+                onClick={() => lang === "en" && toggle()}
+                className={`font-mono text-[10px] tracking-[0.12em] uppercase px-3 py-1 rounded-full transition-all duration-200 ${
+                  lang === "fr" ? "bg-ink text-paper" : "text-ink-4 hover:text-ink"
+                }`}
+              >
+                FR
+              </button>
+              <button
+                onClick={() => lang === "fr" && toggle()}
+                className={`font-mono text-[10px] tracking-[0.12em] uppercase px-3 py-1 rounded-full transition-all duration-200 ${
+                  lang === "en" ? "bg-ink text-paper" : "text-ink-4 hover:text-ink"
+                }`}
+              >
+                EN
+              </button>
+            </div>
             <a
               href="mailto:eliottlee13@gmail.com"
               className="font-display text-sm border border-[rgba(28,25,20,0.2)] text-ink-2 px-4 py-2 hover:border-terracotta hover:text-terracotta transition-all duration-200"
