@@ -3,57 +3,68 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { useLanguage } from "@/lib/i18n";
 
-const links = [
-  { href: "/", label: "Accueil" },
-  { href: "/projects", label: "Projets" },
-  { href: "/about", label: "À propos" },
+const navLinks = [
+  { href: "/", label: { fr: "Accueil", en: "Home" } },
+  { href: "/projects", label: { fr: "Projets", en: "Projects" } },
+  { href: "/about", label: { fr: "À propos", en: "About" } },
 ];
 
 export function Navbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { lang, toggle } = useLanguage();
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-bg/80 backdrop-blur-md border-b border-border">
-      <nav className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-        {/* Logo */}
+    <header className="fixed top-0 left-0 right-0 z-50 bg-paper/90 backdrop-blur-md border-b border-[rgba(28,25,20,0.08)]">
+      <nav className="max-w-container mx-auto px-8 h-16 flex items-center justify-between">
+        {/* Monogram logo */}
         <Link
           href="/"
-          className="font-display text-xl text-text hover:text-accent transition-colors duration-200"
+          className="font-display text-xl font-semibold text-ink hover:opacity-70 transition-opacity duration-200"
         >
-          EL
+          E<span className="text-terracotta">L</span>
         </Link>
 
-        {/* Desktop links */}
+        {/* Desktop nav links */}
         <ul className="hidden md:flex items-center gap-8">
-          {links.map(({ href, label }) => (
+          {navLinks.map(({ href, label }) => (
             <li key={href}>
               <Link
                 href={href}
-                className={`text-sm font-body transition-colors duration-200 ${
+                className={`font-display text-sm font-medium transition-colors duration-200 ${
                   pathname === href
-                    ? "text-accent"
-                    : "text-muted hover:text-text"
+                    ? "text-terracotta"
+                    : "text-ink-3 hover:text-ink"
                 }`}
               >
-                {label}
+                {label[lang]}
               </Link>
             </li>
           ))}
         </ul>
 
-        {/* CTA Desktop */}
-        <a
-          href="mailto:eliottlee13@gmail.com"
-          className="hidden md:inline-flex items-center gap-2 text-sm border border-accent text-accent px-4 py-2 hover:bg-accent hover:text-bg transition-all duration-200"
-        >
-          Me contacter
-        </a>
+        {/* Right: lang toggle + contact */}
+        <div className="hidden md:flex items-center gap-5">
+          <button
+            onClick={toggle}
+            className="font-mono text-[11px] text-ink-4 hover:text-ink tracking-[0.14em] uppercase transition-colors duration-200"
+            aria-label="Toggle language"
+          >
+            {lang === "fr" ? "EN" : "FR"}
+          </button>
+          <a
+            href="mailto:eliottlee13@gmail.com"
+            className="font-display text-sm font-medium border border-[rgba(28,25,20,0.2)] text-ink-2 px-4 py-2 hover:border-terracotta hover:text-terracotta transition-all duration-200"
+          >
+            Contact
+          </a>
+        </div>
 
         {/* Mobile burger */}
         <button
-          className="md:hidden text-muted hover:text-text transition-colors"
+          className="md:hidden text-ink-3 hover:text-ink transition-colors"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Menu"
         >
@@ -79,25 +90,33 @@ export function Navbar() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden border-t border-border bg-bg px-6 py-4 flex flex-col gap-4">
-          {links.map(({ href, label }) => (
+        <div className="md:hidden border-t border-[rgba(28,25,20,0.08)] bg-paper px-8 py-5 flex flex-col gap-4">
+          {navLinks.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
               onClick={() => setMenuOpen(false)}
-              className={`text-sm py-1 transition-colors ${
-                pathname === href ? "text-accent" : "text-muted hover:text-text"
+              className={`font-display text-sm py-1 transition-colors ${
+                pathname === href ? "text-terracotta" : "text-ink-3 hover:text-ink"
               }`}
             >
-              {label}
+              {label[lang]}
             </Link>
           ))}
-          <a
-            href="mailto:eliottlee13@gmail.com"
-            className="text-sm border border-accent text-accent px-4 py-2 text-center hover:bg-accent hover:text-bg transition-all duration-200 mt-2"
-          >
-            Me contacter
-          </a>
+          <div className="flex items-center justify-between pt-3 border-t border-[rgba(28,25,20,0.08)]">
+            <button
+              onClick={toggle}
+              className="font-mono text-[11px] text-ink-4 uppercase tracking-[0.14em] hover:text-ink transition-colors"
+            >
+              {lang === "fr" ? "Switch to EN" : "Passer en FR"}
+            </button>
+            <a
+              href="mailto:eliottlee13@gmail.com"
+              className="font-display text-sm border border-[rgba(28,25,20,0.2)] text-ink-2 px-4 py-2 hover:border-terracotta hover:text-terracotta transition-all duration-200"
+            >
+              Contact
+            </a>
+          </div>
         </div>
       )}
     </header>

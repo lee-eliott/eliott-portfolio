@@ -1,16 +1,14 @@
 import Link from "next/link";
 import { ReactNode } from "react";
 
-/* ─── Tag / Badge ─────────────────────────────────────────── */
 export function Tag({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-block text-xs font-body font-medium px-2.5 py-1 bg-surface-2 text-muted border border-border">
+    <span className="inline-block font-mono text-[10px] font-medium px-2 py-0.5 bg-paper-2 text-ink-4 border border-[rgba(28,25,20,0.1)] tracking-wide">
       {children}
     </span>
   );
 }
 
-/* ─── Section wrapper ─────────────────────────────────────── */
 export function Section({
   children,
   className = "",
@@ -19,36 +17,38 @@ export function Section({
   className?: string;
 }) {
   return (
-    <section className={`max-w-5xl mx-auto px-6 py-20 ${className}`}>
+    <section className={`max-w-container mx-auto px-8 py-20 ${className}`}>
       {children}
     </section>
   );
 }
 
-/* ─── Section heading ─────────────────────────────────────── */
 export function SectionHeading({
   label,
   title,
+  action,
 }: {
   label: string;
   title: string;
+  action?: ReactNode;
 }) {
   return (
-    <div className="mb-12">
-      <p className="text-accent text-xs font-body font-medium uppercase tracking-widest mb-3">
-        {label}
-      </p>
-      <h2 className="font-display text-4xl md:text-5xl text-text">{title}</h2>
+    <div className="flex items-end justify-between gap-6 mb-12 pb-5 border-b border-[rgba(28,25,20,0.12)]">
+      <div className="flex items-baseline gap-4 flex-wrap">
+        <span className="font-mono text-[11px] text-ink-4 tracking-[0.18em] uppercase">
+          {label}
+        </span>
+        <h2 className="font-display text-3xl md:text-4xl font-medium text-ink">{title}</h2>
+      </div>
+      {action && <div className="flex-shrink-0">{action}</div>}
     </div>
   );
 }
 
-/* ─── Accent line ─────────────────────────────────────────── */
 export function AccentLine() {
-  return <div className="w-12 h-px bg-accent" />;
+  return <div className="w-10 h-px bg-terracotta" />;
 }
 
-/* ─── Button ──────────────────────────────────────────────── */
 type ButtonProps = {
   href: string;
   children: ReactNode;
@@ -63,12 +63,11 @@ export function Button({
   external = false,
 }: ButtonProps) {
   const base =
-    "inline-flex items-center gap-2 text-sm px-5 py-2.5 font-body font-medium transition-all duration-200";
+    "inline-flex items-center gap-2 font-display font-medium text-sm px-5 py-2.5 transition-all duration-200 active:scale-[0.98]";
   const styles = {
-    primary:
-      "bg-accent text-bg hover:bg-accent-dark",
+    primary: "bg-terracotta text-paper hover:bg-terracotta-2",
     ghost:
-      "border border-border text-muted hover:border-accent hover:text-accent",
+      "border border-[rgba(28,25,20,0.22)] text-ink-2 hover:border-terracotta hover:text-terracotta",
   };
 
   if (external) {

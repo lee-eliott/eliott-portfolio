@@ -1,12 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap");
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --font-display: "DM Serif Display", serif;
-  --font-body: "DM Sans", sans-serif;
+  --font-display: "Instrument Sans", sans-serif;
+  --font-body: "Spectral", serif;
+  --font-mono: "JetBrains Mono", monospace;
 }
 
 @layer base {
@@ -15,42 +14,34 @@
   }
 
   body {
-    background-color: #0a0a0a;
-    color: #e8e8e8;
+    background-color: #f4efe6;
+    color: #1c1914;
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   ::selection {
-    background-color: #d89584;
-    color: #0a0a0a;
+    background-color: #c16b4f;
+    color: #f4efe6;
   }
 
-  /* Scrollbar */
   ::-webkit-scrollbar {
     width: 4px;
   }
   ::-webkit-scrollbar-track {
-    background: #0a0a0a;
+    background: #f4efe6;
   }
   ::-webkit-scrollbar-thumb {
-    background: #2a2a2a;
+    background: #c8bfb0;
     border-radius: 2px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #d89584;
+    background: #c16b4f;
   }
 }
 
 @layer utilities {
-  .text-gradient {
-    background: linear-gradient(135deg, #e8e8e8 0%, #888888 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
   .animate-delay-100 {
     animation-delay: 100ms;
   }
@@ -63,8 +54,98 @@
   .animate-delay-400 {
     animation-delay: 400ms;
   }
+  .animate-delay-500 {
+    animation-delay: 500ms;
+  }
 
   .opacity-0-init {
     opacity: 0;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #a8a090;
+  }
+
+  .italic-flourish {
+    font-family: var(--font-body);
+    font-style: italic;
+    color: #c16b4f;
+  }
+
+  /* ── Page transition ─────────────────────────────── */
+  .page-enter {
+    animation: pageEnter 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+  @keyframes pageEnter {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Scroll reveal ───────────────────────────────── */
+  .reveal-block {
+    opacity: 0;
+    transform: translateY(30px);
+    filter: blur(3px);
+    transition: opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1),
+                transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1),
+                filter 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .reveal-block.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+
+  /* ── Stagger children ────────────────────────────── */
+  .stagger-parent > * {
+    opacity: 0;
+    transform: translateY(26px);
+    filter: blur(3px);
+    transition: opacity 0.65s cubic-bezier(0.22, 0.61, 0.36, 1),
+                transform 0.65s cubic-bezier(0.22, 0.61, 0.36, 1),
+                filter 0.65s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .stagger-parent.is-revealed > * {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+  .stagger-parent.is-revealed > *:nth-child(1) { transition-delay: 0ms; }
+  .stagger-parent.is-revealed > *:nth-child(2) { transition-delay: 80ms; }
+  .stagger-parent.is-revealed > *:nth-child(3) { transition-delay: 160ms; }
+  .stagger-parent.is-revealed > *:nth-child(4) { transition-delay: 240ms; }
+  .stagger-parent.is-revealed > *:nth-child(5) { transition-delay: 320ms; }
+  .stagger-parent.is-revealed > *:nth-child(6) { transition-delay: 400ms; }
+  .stagger-parent.is-revealed > *:nth-child(7) { transition-delay: 480ms; }
+
+  /* ── Animated scroll cue ─────────────────────────── */
+  @keyframes scrollDrop {
+    0%   { transform: translateY(-100%); opacity: 0; }
+    15%  { opacity: 1; }
+    85%  { opacity: 1; }
+    100% { transform: translateY(280%); opacity: 0; }
+  }
+  .animate-scroll-drop {
+    animation: scrollDrop 2s ease-in-out infinite;
+  }
+
+  /* ── Custom cursor ───────────────────────────────── */
+  @media (pointer: fine) {
+    *, *::before, *::after { cursor: none !important; }
+  }
+
+  .grain-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
   }
 }
