@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { projects } from "@/data/projects";
 import { Button } from "@/components/ui";
 import { Reveal } from "@/components/ui/Reveal";
@@ -23,9 +24,41 @@ const skills = {
   ],
 };
 
+const tooltips: Record<string, { fr: string; en: string }> = {
+  SQL:              { fr: "Requêtes, jointures et agrégations — cœur de mon travail data.", en: "Queries, joins, aggregations — the backbone of my data work." },
+  DAX:              { fr: "Langage de mesures Power BI pour des calculs analytiques avancés.", en: "Power BI measure language for advanced analytical calculations." },
+  Python:           { fr: "Scripts d'automatisation, data, Django — mon couteau suisse.", en: "Automation scripts, data wrangling, Django — my Swiss army knife." },
+  HTML:             { fr: "Structure sémantique des pages web.", en: "Semantic structure of web pages." },
+  CSS:              { fr: "Mise en forme et animations — dont ce portfolio.", en: "Styling and animations — including this portfolio." },
+  JavaScript:       { fr: "Interactivité côté client, base de React et Next.js.", en: "Client-side interactivity, foundation of React and Next.js." },
+  Django:           { fr: "Framework Python pour des apps web robustes côté serveur.", en: "Python framework for robust server-side web apps." },
+  "Next.js":        { fr: "Framework React avec rendu hybride — dont ce portfolio.", en: "React framework with hybrid rendering — including this portfolio." },
+  React:            { fr: "Bibliothèque UI pour des interfaces dynamiques et composants réutilisables.", en: "UI library for dynamic interfaces and reusable components." },
+  Git:              { fr: "Versionnement du code, branches et historique de projet.", en: "Code versioning, branches, and project history." },
+  GitHub:           { fr: "Hébergement de dépôts, CI/CD et projets open source.", en: "Repository hosting, CI/CD, and open source projects." },
+  "VS Code":        { fr: "Mon éditeur principal, configuré avec extensions et snippets.", en: "My main editor, set up with extensions and custom snippets." },
+  Heroku:           { fr: "Déploiement cloud de mes projets Python/Django.", en: "Cloud deployment for my Python/Django projects." },
+  "Data Science":   { fr: "Exploration, visualisation et modélisation de données.", en: "Data exploration, visualisation, and modelling." },
+  IA:               { fr: "Intégration d'outils IA dans mes workflows pour aller plus loin, plus vite.", en: "Integrating AI tools into my workflows to go further, faster." },
+  AI:               { fr: "Intégration d'outils IA dans mes workflows pour aller plus loin, plus vite.", en: "Integrating AI tools into my workflows to go further, faster." },
+  "UX/UI":          { fr: "Design d'interfaces centrées utilisateur et prototypage.", en: "User-centred interface design and prototyping." },
+  "Machine Learning": { fr: "Algorithmes de classification, régression et clustering.", en: "Classification, regression, and clustering algorithms." },
+};
+
 export default function HomePage() {
   const { lang } = useLanguage();
   const s = skills[lang];
+  const [clickedSkill, setClickedSkill] = useState<string | null>(null);
+
+  useEffect(() => {
+    const close = (e: MouseEvent) => {
+      if (!(e.target as HTMLElement).closest("span.group")) {
+        setClickedSkill(null);
+      }
+    };
+    document.addEventListener("click", close);
+    return () => document.removeEventListener("click", close);
+  }, []);
 
   return (
     <>
@@ -226,14 +259,29 @@ export default function HomePage() {
                   {label}
                 </p>
                 <div className="flex flex-col">
-                  {items.map((item) => (
-                    <span
-                      key={item}
-                      className="font-body text-sm text-ink-2 py-2 border-b border-[rgba(28,25,20,0.08)] last:border-0 hover:text-terracotta hover:translate-x-1.5 transition-all duration-200 cursor-default"
-                    >
-                      {item}
-                    </span>
-                  ))}
+                  {items.map((item) => {
+                    const tip = tooltips[item]?.[lang];
+                    const isActive = clickedSkill === item;
+                    return (
+                      <span
+                        key={item}
+                        className="group relative font-body text-sm text-ink-2 py-2 border-b border-[rgba(28,25,20,0.08)] last:border-0 hover:text-terracotta hover:translate-x-1.5 transition-all duration-200 cursor-default"
+                        onClick={() => {
+                          if (tip) setClickedSkill(isActive ? null : item);
+                        }}
+                      >
+                        {item}
+                        {tip && (
+                          <span
+                            className="absolute bottom-full left-0 mb-2 z-20 w-48 bg-ink text-paper font-mono text-[10px] leading-relaxed px-3 py-2 pointer-events-none transition-opacity duration-150 opacity-0 group-hover:opacity-100"
+                            style={isActive ? { opacity: 1 } : undefined}
+                          >
+                            {tip}
+                          </span>
+                        )}
+                      </span>
+                    );
+                  })}
                 </div>
               </div>
             ))}
