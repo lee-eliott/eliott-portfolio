@@ -25,7 +25,7 @@ export function ProjectCard({ project, index = 0 }: Props) {
       </span>
 
       {/* Thumbnail */}
-      <div className="relative w-28 h-[72px] flex-shrink-0 overflow-hidden bg-paper-2">
+      <div className="relative w-28 h-[72px] flex-shrink-0 overflow-hidden rounded-lg bg-paper-2">
         <Image
           src={project.image}
           alt={project.title}
