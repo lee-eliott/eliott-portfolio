@@ -45,15 +45,34 @@ export function ProjectDetail({ project }: { project: Project }) {
 
       {/* Main image */}
       <section className="max-w-container mx-auto px-8 py-12">
-        <div className="relative w-full aspect-video overflow-hidden bg-paper-2 border border-[rgba(28,25,20,0.08)]">
-          <Image
-            src={project.image}
-            alt={project.title}
-            fill
-            className="object-cover"
-            priority
-          />
-        </div>
+        {project.link ? (
+          <a
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block group"
+          >
+            <div className="relative w-full aspect-video overflow-hidden rounded-xl border border-[rgba(28,25,20,0.12)] bg-paper-2 transition-all duration-300 group-hover:scale-[1.015] group-hover:border-terracotta group-hover:shadow-[0_8px_40px_rgba(193,107,79,0.12)]">
+              <Image
+                src={project.image}
+                alt={project.title}
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+          </a>
+        ) : (
+          <div className="relative w-full aspect-video overflow-hidden rounded-xl border border-[rgba(28,25,20,0.12)] bg-paper-2">
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+        )}
       </section>
 
       {/* Content grid */}
