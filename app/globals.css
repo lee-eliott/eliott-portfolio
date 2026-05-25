@@ -139,6 +139,22 @@
     *, *::before, *::after { cursor: none !important; }
   }
 
+  /* ── Cursor click ripple ─────────────────────────── */
+  .cursor-ripple {
+    position: fixed;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1.5px solid #c16b4f;
+    pointer-events: none;
+    z-index: 9998;
+    animation: cursorRipple 0.55s ease-out forwards;
+  }
+  @keyframes cursorRipple {
+    0%   { transform: translate(-50%, -50%) scale(0); opacity: 0.8; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+  }
+
   .grain-overlay {
     position: absolute;
     inset: 0;
